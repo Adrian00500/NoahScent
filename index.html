@@ -210,58 +210,111 @@
 
   footer { text-align:center; padding:40px 20px; border-top:1px solid var(--border); font-size:8px; letter-spacing:5px; color:var(--text-dim); text-transform:uppercase; }
 
-  /* INSTAGRAM CTA */
-  .ig-cta-wrap {
-    margin-top: 32px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 14px;
+  /* PAYMENT MODAL */
+  .modal-overlay {
+    display:none; position:fixed; inset:0;
+    background:rgba(0,0,0,.85); backdrop-filter:blur(12px);
+    z-index:1000; align-items:center; justify-content:center;
+    padding:20px;
   }
-  .ig-cta-label {
-    font-size: 8px;
-    letter-spacing: 5px;
-    color: var(--text-dim);
-    text-transform: uppercase;
+  .modal-overlay.visible { display:flex; }
+
+  .modal {
+    background:var(--card);
+    border:1px solid var(--border-gold);
+    max-width:480px; width:100%;
+    max-height:90vh; overflow-y:auto;
+    position:relative;
+    animation:fadeUp .35s ease both;
   }
-  .ig-btn {
-    display: inline-flex;
-    align-items: center;
-    gap: 14px;
-    padding: 16px 36px;
-    background: linear-gradient(135deg, #833AB4 0%, #C13584 40%, #E1306C 70%, #F77737 100%);
-    border: none;
-    color: #fff;
-    font-family: 'Montserrat', sans-serif;
-    font-size: 11px;
-    font-weight: 600;
-    letter-spacing: 3px;
-    text-transform: uppercase;
-    text-decoration: none;
-    cursor: pointer;
-    transition: transform .3s, box-shadow .3s, opacity .3s;
-    box-shadow: 0 8px 40px rgba(193,53,132,.3);
-    position: relative;
-    overflow: hidden;
+
+  .modal-header {
+    background:linear-gradient(135deg,#17140E,#211F1B);
+    padding:28px 28px 24px;
+    border-bottom:1px solid var(--border-gold);
+    text-align:center;
   }
-  .ig-btn::before {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background: linear-gradient(135deg, rgba(255,255,255,.12) 0%, transparent 60%);
-    pointer-events: none;
+
+  .modal-eyebrow {
+    font-size:7px; letter-spacing:5px; color:var(--gold-dim);
+    text-transform:uppercase; margin-bottom:10px;
   }
-  .ig-btn:hover { transform: translateY(-2px); box-shadow: 0 14px 50px rgba(193,53,132,.45); }
-  .ig-btn:active { transform: translateY(0); opacity: .9; }
-  .ig-btn svg { flex-shrink: 0; }
-  .ig-note {
-    font-size: 9px;
-    color: var(--text-dim);
-    letter-spacing: 1px;
-    text-align: center;
-    line-height: 1.7;
+
+  .modal-title {
+    font-family:'Cormorant Garamond',serif;
+    font-size:28px; font-weight:300; color:var(--text);
+    letter-spacing:2px;
   }
-  .ig-note strong { color: var(--gold); font-weight: 500; }
+  .modal-title em { color:var(--gold); font-style:italic; }
+
+  .modal-total-wrap {
+    text-align:center; padding:20px 28px;
+    border-bottom:1px solid var(--border);
+  }
+  .modal-total-label { font-size:7px; letter-spacing:5px; color:var(--text-dim); text-transform:uppercase; margin-bottom:6px; }
+  .modal-total { font-family:'Cormorant Garamond',serif; font-size:44px; font-weight:600; color:var(--gold); }
+
+  .modal-bank {
+    padding:24px 28px;
+    border-bottom:1px solid var(--border);
+  }
+
+  .modal-bank-title {
+    font-size:7px; letter-spacing:5px; color:var(--gold-dim);
+    text-transform:uppercase; margin-bottom:18px;
+  }
+
+  .bank-row {
+    display:flex; justify-content:space-between; align-items:center;
+    padding:10px 0; border-bottom:1px solid var(--border);
+    gap:12px;
+  }
+  .bank-row:last-child { border-bottom:none; }
+  .bank-lbl { font-size:8px; letter-spacing:2px; color:var(--text-dim); text-transform:uppercase; }
+  .bank-val { font-size:13px; color:var(--text); font-weight:500; text-align:right; }
+  .bank-val.highlight { color:var(--gold); font-family:'Cormorant Garamond',serif; font-size:18px; letter-spacing:1px; }
+
+  .modal-actions {
+    padding:24px 28px;
+    display:flex; flex-direction:column; gap:12px;
+  }
+
+  .btn-whatsapp {
+    display:flex; align-items:center; justify-content:center; gap:12px;
+    background:#25D366; border:none;
+    color:#fff; font-family:'Montserrat',sans-serif;
+    font-size:9px; font-weight:600; letter-spacing:3px;
+    text-transform:uppercase; padding:14px 24px;
+    cursor:pointer; text-decoration:none;
+    transition:all .3s;
+  }
+  .btn-whatsapp:hover { background:#1DAD54; transform:translateY(-2px); }
+
+  .btn-close-modal {
+    background:transparent; border:1px solid var(--border);
+    color:var(--text-dim); font-family:'Montserrat',sans-serif;
+    font-size:8px; letter-spacing:3px; text-transform:uppercase;
+    padding:12px 24px; cursor:pointer; transition:all .3s;
+  }
+  .btn-close-modal:hover { border-color:var(--gold-dim); color:var(--text); }
+
+  .modal-note {
+    font-size:8px; color:var(--text-dim); letter-spacing:1px;
+    text-align:center; line-height:1.8; padding:0 28px 24px;
+  }
+  .modal-note strong { color:var(--gold); }
+
+  /* STICKY PAY BTN */
+  .btn-pay-sticky {
+    display:none; align-items:center; gap:10px;
+    background:var(--gold); border:none;
+    color:var(--black); font-family:'Montserrat',sans-serif;
+    font-size:8px; font-weight:600; letter-spacing:3px;
+    text-transform:uppercase; padding:9px 20px;
+    cursor:pointer; transition:all .3s;
+  }
+  .btn-pay-sticky:hover { background:var(--gold-light); }
+  .btn-pay-sticky.visible { display:inline-flex; }
 
   @keyframes fadeUp { from{opacity:0;transform:translateY(24px)} to{opacity:1;transform:translateY(0)} }
 
@@ -287,14 +340,9 @@
   </div>
   <span class="sticky-count" id="itemCount">0 perfumes seleccionados</span>
   <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap;">
-    <a class="btn-ig-sticky" id="btnIgSticky" href="https://ig.me/m/noahscent" target="_blank" rel="noopener">
-      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-        <rect x="2" y="2" width="20" height="20" rx="5" ry="5"/>
-        <circle cx="12" cy="12" r="4.5"/>
-        <circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/>
-      </svg>
-      Finalizar pedido
-    </a>
+    <button class="btn-pay-sticky" id="btnPaySticky" onclick="openModal()">
+      💳 &nbsp;Finalizar pedido
+    </button>
     <button class="btn-clear" onclick="clearAll()">✕ &nbsp;Limpiar</button>
   </div>
 </div>
@@ -308,19 +356,58 @@
     <span class="stb-label">Total a pagar</span>
     <span class="stb-amount" id="summaryTotal">RD$ 0</span>
   </div>
-  <div class="ig-cta-wrap">
-    <span class="ig-cta-label">¿Listo para ordenar?</span>
-    <a class="ig-btn" id="igBtn" href="https://ig.me/m/noahscent" target="_blank" rel="noopener">
-      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-        <rect x="2" y="2" width="20" height="20" rx="5" ry="5"/>
-        <circle cx="12" cy="12" r="4.5"/>
-        <circle cx="17.5" cy="6.5" r="1" fill="white" stroke="none"/>
-      </svg>
-      Finalizar pedido en Instagram
-    </a>
-    <p class="ig-note">
-      Al hacer clic serás redirigido a <strong>@noahscent</strong> en Instagram.<br>
-      Comparte tu selección y coordinamos la entrega.
+  <div style="text-align:center;padding:32px 0 10px;">
+    <button class="btn-pay-sticky" style="display:inline-flex;font-size:11px;padding:16px 40px;" onclick="openModal()">
+      💳 &nbsp;Finalizar pedido y pagar
+    </button>
+  </div>
+</div>
+
+<!-- PAYMENT MODAL -->
+<div class="modal-overlay" id="modalOverlay" onclick="closeModalOutside(event)">
+  <div class="modal" id="modal">
+    <div class="modal-header">
+      <div class="modal-eyebrow">Noah Scents Decants</div>
+      <div class="modal-title">Datos de <em>Pago</em></div>
+    </div>
+    <div class="modal-total-wrap">
+      <div class="modal-total-label">Total a transferir</div>
+      <div class="modal-total" id="modalTotal">RD$ 0</div>
+    </div>
+    <div class="modal-bank">
+      <div class="modal-bank-title">Información bancaria</div>
+      <div class="bank-row">
+        <span class="bank-lbl">Banco</span>
+        <span class="bank-val highlight">BHD</span>
+      </div>
+      <div class="bank-row">
+        <span class="bank-lbl">Tipo de cuenta</span>
+        <span class="bank-val">Ahorros</span>
+      </div>
+      <div class="bank-row">
+        <span class="bank-lbl">Número de cuenta</span>
+        <span class="bank-val highlight">32988740015</span>
+      </div>
+      <div class="bank-row">
+        <span class="bank-lbl">Titular</span>
+        <span class="bank-val">Adrian Vasquez / Megan Santana</span>
+      </div>
+      <div class="bank-row">
+        <span class="bank-lbl">Cédula</span>
+        <span class="bank-val">402-1531009-1</span>
+      </div>
+    </div>
+    <div class="modal-actions">
+      <a class="btn-whatsapp" id="btnWhatsapp" href="#" target="_blank">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="white"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+        Enviar comprobante por WhatsApp
+      </a>
+      <button class="btn-close-modal" onclick="closeModal()">✕ &nbsp;Cerrar</button>
+    </div>
+    <p class="modal-note">
+      Realiza la transferencia por el monto exacto.<br>
+      Luego envía el comprobante a <strong>849-460-6363</strong> por WhatsApp.<br>
+      Tu pedido será confirmado en minutos. ✦
     </p>
   </div>
 </div>
@@ -533,11 +620,11 @@ function updateSummary(){
   document.getElementById('totalPrice').textContent=fmt(total);
   document.getElementById('itemCount').textContent=count+(count===1?' perfume seleccionado':' perfumes seleccionados');
   document.getElementById('summaryTotal').textContent=fmt(total);
+  document.getElementById('modalTotal').textContent=fmt(total);
 
-  // Show/hide sticky Instagram button
-  const btnIg = document.getElementById('btnIgSticky');
-  if(count > 0) btnIg.classList.add('visible');
-  else btnIg.classList.remove('visible');
+  const btnPay = document.getElementById('btnPaySticky');
+  if(count > 0) btnPay.classList.add('visible');
+  else btnPay.classList.remove('visible');
 
   const wrap=document.getElementById('summaryWrap');
   const table=document.getElementById('summaryTable');
@@ -552,6 +639,34 @@ function updateSummary(){
       <div class="sr-size">${item.size}</div>
       <div class="sr-price">${fmt(item.price)}</div>
     </div>`).join('');
+}
+
+function openModal(){
+  const items=Object.values(selections);
+  const total=items.reduce((s,i)=>s+i.price,0);
+  const count=items.length;
+  if(!count) return;
+
+  // Build WhatsApp message
+  let msg = '🌿 *Noah Scents Decants* — Mi pedido:\n\n';
+  items.forEach(item => {
+    msg += `▸ ${item.house} - ${item.name} (${item.size}) → ${fmt(item.price)}\n`;
+  });
+  msg += `\n*Total: ${fmt(total)}*\n\nAdjunto comprobante de transferencia BHD.`;
+
+  const waLink = 'https://wa.me/18494606363?text=' + encodeURIComponent(msg);
+  document.getElementById('btnWhatsapp').href = waLink;
+  document.getElementById('modalOverlay').classList.add('visible');
+  document.body.style.overflow = 'hidden';
+}
+
+function closeModal(){
+  document.getElementById('modalOverlay').classList.remove('visible');
+  document.body.style.overflow = '';
+}
+
+function closeModalOutside(e){
+  if(e.target === document.getElementById('modalOverlay')) closeModal();
 }
 
 function clearAll(){
