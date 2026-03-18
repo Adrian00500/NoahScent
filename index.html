@@ -317,11 +317,96 @@
   .btn-pay-sticky.visible { display:inline-flex; }
 
   @keyframes fadeUp { from{opacity:0;transform:translateY(24px)} to{opacity:1;transform:translateY(0)} }
+  @keyframes bubbleIn { from{opacity:0;transform:translateY(20px) scale(.92)} to{opacity:1;transform:translateY(0) scale(1)} }
+  @keyframes bubbleOut { from{opacity:1;transform:translateY(0) scale(1)} to{opacity:0;transform:translateY(-16px) scale(.92)} }
+  @keyframes pulse-gold { 0%,100%{box-shadow:0 0 0 0 rgba(184,151,90,.4)} 50%{box-shadow:0 0 0 8px rgba(184,151,90,0)} }
+
+  /* FLOATING FACT BUBBLES */
+  .fact-bubble {
+    position:fixed; bottom:28px; left:28px; z-index:500;
+    max-width:300px; background:var(--card);
+    border:1px solid var(--border-gold);
+    padding:16px 20px 14px;
+    pointer-events:none;
+  }
+  .fact-bubble.show { animation: bubbleIn .5s ease both; }
+  .fact-bubble.hide { animation: bubbleOut .5s ease both; }
+  .fact-icon { font-size:18px; margin-bottom:8px; display:block; }
+  .fact-text { font-size:10px; color:var(--text); line-height:1.7; letter-spacing:.3px; }
+  .fact-label { font-size:7px; letter-spacing:4px; color:var(--gold); text-transform:uppercase; margin-bottom:6px; display:block; }
+
+  /* FREE DECANT BANNER */
+  .free-decant-banner {
+    display:none; max-width:1440px; margin:0 auto;
+    padding:0 28px 0;
+  }
+  .free-decant-banner.visible { display:block; }
+  .fdb-inner {
+    background:linear-gradient(135deg,#17140E 0%,#2A2010 50%,#17140E 100%);
+    border:1px solid var(--gold);
+    padding:24px 28px;
+    display:flex; align-items:center; gap:20px;
+    flex-wrap:wrap; margin-bottom:32px;
+    animation: pulse-gold 2s infinite;
+  }
+  .fdb-icon { font-size:32px; flex-shrink:0; }
+  .fdb-text { flex:1; min-width:200px; }
+  .fdb-title { font-family:'Cormorant Garamond',serif; font-size:22px; color:var(--gold); letter-spacing:1px; margin-bottom:4px; }
+  .fdb-sub { font-size:9px; color:var(--text-dim); letter-spacing:2px; text-transform:uppercase; }
+  .fdb-sub strong { color:var(--gold-light); }
+  .btn-choose-free {
+    background:var(--gold); border:none;
+    color:var(--black); font-family:'Montserrat',sans-serif;
+    font-size:8px; font-weight:600; letter-spacing:3px;
+    text-transform:uppercase; padding:12px 24px;
+    cursor:pointer; transition:all .3s; flex-shrink:0;
+  }
+  .btn-choose-free:hover { background:var(--gold-light); }
+
+  /* FREE DECANT MODAL */
+  .free-modal-overlay {
+    display:none; position:fixed; inset:0;
+    background:rgba(0,0,0,.88); backdrop-filter:blur(12px);
+    z-index:1001; align-items:center; justify-content:center; padding:20px;
+  }
+  .free-modal-overlay.visible { display:flex; }
+  .free-modal {
+    background:var(--card); border:1px solid var(--gold);
+    max-width:560px; width:100%; max-height:85vh; overflow-y:auto;
+    animation:fadeUp .35s ease both;
+  }
+  .free-modal-header {
+    background:linear-gradient(135deg,#17140E,#211F1B);
+    padding:24px 28px; border-bottom:1px solid var(--border-gold); text-align:center;
+  }
+  .free-modal-title { font-family:'Cormorant Garamond',serif; font-size:28px; font-weight:300; color:var(--gold); letter-spacing:2px; }
+  .free-modal-sub { font-size:8px; letter-spacing:4px; color:var(--text-dim); text-transform:uppercase; margin-top:6px; }
+  .free-list { padding:20px 20px 10px; display:grid; grid-template-columns:1fr 1fr; gap:10px; }
+  .free-item {
+    border:1px solid var(--border); padding:12px 14px; cursor:pointer;
+    transition:all .22s; display:flex; flex-direction:column; gap:3px;
+  }
+  .free-item:hover { border-color:var(--gold-dim); background:rgba(184,151,90,.04); }
+  .free-item.selected-free { border-color:var(--gold); background:rgba(184,151,90,.09); }
+  .fi-house { font-size:7px; letter-spacing:3px; color:var(--gold-dim); text-transform:uppercase; }
+  .fi-name { font-family:'Cormorant Garamond',serif; font-size:15px; color:var(--text); }
+  .fi-size { font-size:8px; color:var(--gold); }
+  .free-modal-actions { padding:16px 20px 24px; display:flex; flex-direction:column; gap:10px; }
+  .btn-confirm-free {
+    background:var(--gold); border:none; color:var(--black);
+    font-family:'Montserrat',sans-serif; font-size:9px; font-weight:600;
+    letter-spacing:3px; text-transform:uppercase; padding:14px;
+    cursor:pointer; transition:all .3s;
+  }
+  .btn-confirm-free:hover { background:var(--gold-light); }
+  .btn-confirm-free:disabled { opacity:.4; cursor:not-allowed; }
 
   @media(max-width:600px){
     header{padding:56px 16px 44px;}
     .catalog{gap:16px;padding:36px 16px 50px;}
     .sticky{padding:10px 16px;}
+    .free-list{grid-template-columns:1fr;}
+    .fact-bubble{left:16px;right:16px;max-width:none;bottom:16px;}
   }
 </style>
 </head>
@@ -348,6 +433,18 @@
 </div>
 
 <div class="catalog" id="catalog"></div>
+
+<!-- FREE DECANT BANNER -->
+<div class="free-decant-banner" id="freeDecantBanner">
+  <div class="fdb-inner">
+    <div class="fdb-icon">🎁</div>
+    <div class="fdb-text">
+      <div class="fdb-title">¡Tienes un Decant Gratis!</div>
+      <div class="fdb-sub">Por elegir <strong>3 o más perfumes</strong> — selecciona tu regalo</div>
+    </div>
+    <button class="btn-choose-free" onclick="openFreeModal()">Elegir regalo →</button>
+  </div>
+</div>
 
 <div class="summary-wrap" id="summaryWrap">
   <div class="summary-heading">Tu <em>Selección</em></div>
@@ -410,6 +507,28 @@
       Tu pedido será confirmado en minutos. ✦
     </p>
   </div>
+</div>
+
+<!-- FREE DECANT MODAL -->
+<div class="free-modal-overlay" id="freeModalOverlay" onclick="closeFreeModalOutside(event)">
+  <div class="free-modal">
+    <div class="free-modal-header">
+      <div class="free-modal-title">🎁 Elige tu Decant Gratis</div>
+      <div class="free-modal-sub">Selecciona 1 decant de 3ml como regalo</div>
+    </div>
+    <div class="free-list" id="freeList"></div>
+    <div class="free-modal-actions">
+      <button class="btn-confirm-free" id="btnConfirmFree" onclick="confirmFree()" disabled>Confirmar regalo</button>
+      <button class="btn-close-modal" onclick="closeFreeModal()">✕ &nbsp;Cerrar</button>
+    </div>
+  </div>
+</div>
+
+<!-- FACT BUBBLE -->
+<div class="fact-bubble" id="factBubble" style="display:none;">
+  <span class="fact-label">✦ &nbsp;¿Sabías que...?</span>
+  <span class="fact-icon" id="factIcon"></span>
+  <p class="fact-text" id="factText"></p>
 </div>
 
 <footer>Noah Scents Decants &nbsp;·&nbsp; Precios en pesos dominicanos &nbsp;·&nbsp; Selección 2025</footer>
@@ -626,11 +745,15 @@ function updateSummary(){
   if(count > 0) btnPay.classList.add('visible');
   else btnPay.classList.remove('visible');
 
+  // Show/hide free decant banner
+  const banner = document.getElementById('freeDecantBanner');
+  if(count >= 3) banner.classList.add('visible');
+  else { banner.classList.remove('visible'); freeSelection = null; }
+
   const wrap=document.getElementById('summaryWrap');
   const table=document.getElementById('summaryTable');
   if(!count){wrap.classList.remove('visible');return;}
-  wrap.classList.add('visible');
-  table.innerHTML=items.map(item=>`
+  wrap.classList.add('visible');(item=>`
     <div class="summary-row">
       <div>
         <div class="sr-house">${item.house}</div>
@@ -673,8 +796,108 @@ function clearAll(){
   Object.keys(selections).forEach(k=>delete selections[k]);
   document.querySelectorAll('.card').forEach(c=>c.classList.remove('selected'));
   document.querySelectorAll('.size-btn').forEach(b=>b.classList.remove('active'));
+  freeSelection = null;
   updateSummary();
 }
+
+// ── FREE DECANT ──
+let freeSelection = null;
+
+// Perfumes elegibles para decant gratis (3ml, los de menor precio)
+const freeEligible = [
+  {idx:13, name:"Mousse Illuminée", house:"Rogue Perfumery"},
+  {idx:18, name:"Sublimizia", house:"Bruno Perucci"},
+  {idx:27, name:"Lunar Vetiver", house:"Amoroud"},
+  {idx:37, name:"Homme 2005", house:"Dior"},
+  {idx:38, name:"Bois Impérial", house:"Essential Parfums"},
+  {idx:46, name:"Homme Intense", house:"Dior"},
+  {idx:47, name:"1725 Casanova", house:"Histoires de Parfums"},
+  {idx:48, name:"Femme", house:"Rochas"},
+  {idx:51, name:"Neroli Canvas", house:"Al Haramain"},
+  {idx:52, name:"L'Homme", house:"Prada"},
+];
+
+function openFreeModal(){
+  const list = document.getElementById('freeList');
+  list.innerHTML = freeEligible.map((p,i) => `
+    <div class="free-item ${freeSelection===i?'selected-free':''}" onclick="selectFree(${i})">
+      <span class="fi-house">${p.house}</span>
+      <span class="fi-name">${p.name}</span>
+      <span class="fi-size">3ml · Gratis 🎁</span>
+    </div>`).join('');
+  document.getElementById('btnConfirmFree').disabled = freeSelection === null;
+  document.getElementById('freeModalOverlay').classList.add('visible');
+  document.body.style.overflow = 'hidden';
+}
+
+function selectFree(i){
+  freeSelection = i;
+  document.querySelectorAll('.free-item').forEach((el,idx) => {
+    el.classList.toggle('selected-free', idx === i);
+  });
+  document.getElementById('btnConfirmFree').disabled = false;
+}
+
+function confirmFree(){
+  if(freeSelection === null) return;
+  const p = freeEligible[freeSelection];
+  document.getElementById('freeModalOverlay').classList.remove('visible');
+  document.body.style.overflow = '';
+  // Update banner to show selected
+  document.querySelector('.fdb-title').textContent = `🎁 Regalo: ${p.name} (3ml)`;
+  document.querySelector('.fdb-sub').innerHTML = `Tu decant gratis está confirmado · <strong>${p.house}</strong>`;
+  document.querySelector('.btn-choose-free').textContent = 'Cambiar →';
+}
+
+function closeFreeModal(){
+  document.getElementById('freeModalOverlay').classList.remove('visible');
+  document.body.style.overflow = '';
+}
+
+function closeFreeModalOutside(e){
+  if(e.target === document.getElementById('freeModalOverlay')) closeFreeModal();
+}
+
+// ── FACT BUBBLES ──
+const facts = [
+  {icon:"🌿", text:"El oud es uno de los ingredientes más costosos del mundo. Proviene de un árbol infectado por un hongo que produce una resina oscura y aromática que puede valer más que el oro."},
+  {icon:"🌹", text:"Para obtener 1ml de aceite esencial de rosa de Damasco se necesitan aproximadamente 5,000 pétalos de rosa recogidos a mano al amanecer."},
+  {icon:"🧪", text:"Los aldehídos, moléculas sintéticas descubiertas en el siglo XX, revolucionaron la perfumería. El Chanel Nº5 fue el primer perfume en usarlos masivamente en 1921."},
+  {icon:"🐋", text:"El ámbar gris es una secreción del intestino del cachalote. Durante siglos fue el fijador más valorado de la perfumería por su capacidad de prolongar un aroma horas después de su aplicación."},
+  {icon:"🌸", text:"La flor de jazmín debe cosecharse de noche porque su aroma es más intenso después del atardecer. Un kg de absoluto de jazmín requiere alrededor de 8 millones de flores."},
+  {icon:"⏳", text:"Los decants te permiten explorar fragancias de nicho que pueden costar más de $500 por botella completa. Probar antes de invertir es la decisión más inteligente de un amante de la perfumería."},
+  {icon:"🌲", text:"El sándalo de Mysore en India está protegido por el gobierno debido a su sobreexplotación. Un árbol tarda 30 años en madurar y produce la madera más valorada en perfumería."},
+  {icon:"💎", text:"Las fragancias de nicho se distinguen de las comerciales por usar ingredientes naturales en mayor concentración y por no estar diseñadas para el mercado masivo, sino para el connoisseur."},
+  {icon:"🐱", text:"El castóreo, un ingrediente clásico de los perfumes cueros y fougères, proviene de las glándulas de castor. Hoy en día se replica sintéticamente, pero el natural era insustituible en perfumería clásica."},
+  {icon:"🕯️", text:"Las notas de salida, corazón y fondo de un perfume se perciben en tiempos distintos. Las notas de fondo pueden durar hasta 24 horas en la piel y son las más costosas de producir."},
+  {icon:"🌙", text:"El civet, extraído de la civeta africana, fue durante siglos el fijador animal más usado en perfumería. Su aroma en pequeñas cantidades es voluptuoso; en grandes cantidades, repulsivo."},
+  {icon:"✈️", text:"Los grandes maestros perfumistas, llamados 'narices', estudian durante años y son capaces de identificar más de 3,000 ingredientes distintos solo con el olfato."},
+];
+
+let factIndex = 0;
+let factTimer = null;
+
+function showFact(){
+  const bubble = document.getElementById('factBubble');
+  const fact = facts[factIndex % facts.length];
+  document.getElementById('factIcon').textContent = fact.icon;
+  document.getElementById('factText').textContent = fact.text;
+  bubble.style.display = 'block';
+  bubble.className = 'fact-bubble show';
+  factIndex++;
+
+  // Hide after 7 seconds
+  setTimeout(() => {
+    bubble.className = 'fact-bubble hide';
+    setTimeout(() => { bubble.style.display = 'none'; }, 500);
+  }, 7000);
+}
+
+// Show first fact after 5s, then every 20s
+setTimeout(() => {
+  showFact();
+  setInterval(showFact, 20000);
+}, 5000);
 
 const catalog=document.getElementById('catalog');
 perfumes.forEach((p,i)=>catalog.appendChild(buildCard(p,i)));
