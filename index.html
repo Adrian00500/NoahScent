@@ -363,7 +363,7 @@
   }
   .btn-choose-free:hover { background:var(--gold-light); }
 
-  /* FREE DECANT MODAL */
+  /* DISCOUNT MODAL */
   .free-modal-overlay {
     display:none; position:fixed; inset:0;
     background:rgba(0,0,0,.88); backdrop-filter:blur(12px);
@@ -372,7 +372,7 @@
   .free-modal-overlay.visible { display:flex; }
   .free-modal {
     background:var(--card); border:1px solid var(--gold);
-    max-width:560px; width:100%; max-height:85vh; overflow-y:auto;
+    max-width:580px; width:100%; max-height:85vh; overflow-y:auto;
     animation:fadeUp .35s ease both;
   }
   .free-modal-header {
@@ -381,16 +381,21 @@
   }
   .free-modal-title { font-family:'Cormorant Garamond',serif; font-size:28px; font-weight:300; color:var(--gold); letter-spacing:2px; }
   .free-modal-sub { font-size:8px; letter-spacing:4px; color:var(--text-dim); text-transform:uppercase; margin-top:6px; }
-  .free-list { padding:20px 20px 10px; display:grid; grid-template-columns:1fr 1fr; gap:10px; }
-  .free-item {
+  .disc-list { padding:20px 20px 10px; display:grid; grid-template-columns:1fr 1fr; gap:10px; }
+  .disc-item {
     border:1px solid var(--border); padding:12px 14px; cursor:pointer;
-    transition:all .22s; display:flex; flex-direction:column; gap:3px;
+    transition:all .22s; display:flex; flex-direction:column; gap:4px;
+    position:relative; overflow:hidden;
   }
-  .free-item:hover { border-color:var(--gold-dim); background:rgba(184,151,90,.04); }
-  .free-item.selected-free { border-color:var(--gold); background:rgba(184,151,90,.09); }
-  .fi-house { font-size:7px; letter-spacing:3px; color:var(--gold-dim); text-transform:uppercase; }
-  .fi-name { font-family:'Cormorant Garamond',serif; font-size:15px; color:var(--text); }
-  .fi-size { font-size:8px; color:var(--gold); }
+  .disc-item:hover { border-color:var(--gold-dim); background:rgba(184,151,90,.04); }
+  .disc-item.selected-disc { border-color:var(--gold); background:rgba(184,151,90,.09); }
+  .disc-item.in-cart { opacity:.4; pointer-events:none; }
+  .di-house { font-size:7px; letter-spacing:3px; color:var(--gold-dim); text-transform:uppercase; }
+  .di-name { font-family:'Cormorant Garamond',serif; font-size:15px; color:var(--text); line-height:1.2; }
+  .di-prices { display:flex; gap:8px; align-items:center; margin-top:2px; flex-wrap:wrap; }
+  .di-original { font-size:9px; color:var(--text-dim); text-decoration:line-through; }
+  .di-discounted { font-size:11px; color:var(--gold); font-weight:600; }
+  .di-badge { font-size:7px; background:#1A2A0A; border:1px solid #3A6010; color:#80C040; padding:2px 6px; letter-spacing:1px; }
   .free-modal-actions { padding:16px 20px 24px; display:flex; flex-direction:column; gap:10px; }
   .btn-confirm-free {
     background:var(--gold); border:none; color:var(--black);
@@ -400,6 +405,14 @@
   }
   .btn-confirm-free:hover { background:var(--gold-light); }
   .btn-confirm-free:disabled { opacity:.4; cursor:not-allowed; }
+
+  /* DISCOUNT TAG ON CARD */
+  .discount-tag {
+    position:absolute; top:12px; left:12px; z-index:10;
+    background:#1A2A0A; border:1px solid #3A6010;
+    color:#80C040; font-size:7px; font-weight:600;
+    letter-spacing:2px; text-transform:uppercase; padding:4px 9px;
+  }
 
   @media(max-width:600px){
     header{padding:56px 16px 44px;}
@@ -434,15 +447,15 @@
 
 <div class="catalog" id="catalog"></div>
 
-<!-- FREE DECANT BANNER -->
+<!-- DISCOUNT BANNER -->
 <div class="free-decant-banner" id="freeDecantBanner">
   <div class="fdb-inner">
-    <div class="fdb-icon">🎁</div>
+    <div class="fdb-icon">🏷️</div>
     <div class="fdb-text">
-      <div class="fdb-title">¡Tienes un Decant Gratis!</div>
-      <div class="fdb-sub">Por elegir <strong>3 o más perfumes</strong> — selecciona tu regalo</div>
+      <div class="fdb-title">¡25% de Descuento Desbloqueado!</div>
+      <div class="fdb-sub">Por elegir <strong>3 o más perfumes</strong> — aplica en fragancias seleccionadas</div>
     </div>
-    <button class="btn-choose-free" onclick="openFreeModal()">Elegir regalo →</button>
+    <button class="btn-choose-free" onclick="openFreeModal()">Ver descuentos →</button>
   </div>
 </div>
 
@@ -509,16 +522,19 @@
   </div>
 </div>
 
-<!-- FREE DECANT MODAL -->
+<!-- DISCOUNT MODAL -->
 <div class="free-modal-overlay" id="freeModalOverlay" onclick="closeFreeModalOutside(event)">
   <div class="free-modal">
     <div class="free-modal-header">
-      <div class="free-modal-title">🎁 Elige tu Decant Gratis</div>
-      <div class="free-modal-sub">Selecciona 1 decant de 3ml como regalo</div>
+      <div class="free-modal-title">🏷️ 25% de Descuento</div>
+      <div class="free-modal-sub">Elige hasta 2 perfumes con descuento · Solo por comprar 3+</div>
     </div>
-    <div class="free-list" id="freeList"></div>
+    <div class="disc-list" id="freeList"></div>
+    <div style="padding:0 20px 8px;">
+      <p style="font-size:8px;color:var(--text-dim);letter-spacing:1px;line-height:1.7;" id="discSummary"></p>
+    </div>
     <div class="free-modal-actions">
-      <button class="btn-confirm-free" id="btnConfirmFree" onclick="confirmFree()" disabled>Confirmar regalo</button>
+      <button class="btn-confirm-free" id="btnConfirmFree" onclick="confirmFree()" disabled>Aplicar descuento</button>
       <button class="btn-close-modal" onclick="closeFreeModal()">✕ &nbsp;Cerrar</button>
     </div>
   </div>
@@ -748,16 +764,17 @@ function updateSummary(){
   // Show/hide free decant banner
   const banner = document.getElementById('freeDecantBanner');
   if(count >= 3) banner.classList.add('visible');
-  else { banner.classList.remove('visible'); freeSelection = null; }
+  else { banner.classList.remove('visible'); discountSelections = []; }
 
   const wrap=document.getElementById('summaryWrap');
   const table=document.getElementById('summaryTable');
   if(!count){wrap.classList.remove('visible');return;}
-  wrap.classList.add('visible');(item=>`
+  wrap.classList.add('visible');
+  table.innerHTML=items.map(item=>`
     <div class="summary-row">
       <div>
         <div class="sr-house">${item.house}</div>
-        <div class="sr-name">${item.name}</div>
+        <div class="sr-name">${item.name}${item.discounted?' <span style="font-size:7px;background:#1A2A0A;border:1px solid #3A6010;color:#80C040;padding:2px 6px;letter-spacing:1px;">−25%</span>':''}</div>
       </div>
       <div class="sr-size">${item.size}</div>
       <div class="sr-price">${fmt(item.price)}</div>
@@ -796,56 +813,93 @@ function clearAll(){
   Object.keys(selections).forEach(k=>delete selections[k]);
   document.querySelectorAll('.card').forEach(c=>c.classList.remove('selected'));
   document.querySelectorAll('.size-btn').forEach(b=>b.classList.remove('active'));
-  freeSelection = null;
+  discountSelections = [];
   updateSummary();
 }
 
-// ── FREE DECANT ──
-let freeSelection = null;
+// ── 25% DISCOUNT ──
+// Perfumes with 3ml price under RD$1,000 — most accessible
+const discountEligible = perfumes
+  .map((p,i) => ({...p, idx:i}))
+  .filter(p => p.prices[0] < 1000);
 
-// Perfumes elegibles para decant gratis (3ml, los de menor precio)
-const freeEligible = [
-  {idx:13, name:"Mousse Illuminée", house:"Rogue Perfumery"},
-  {idx:18, name:"Sublimizia", house:"Bruno Perucci"},
-  {idx:27, name:"Lunar Vetiver", house:"Amoroud"},
-  {idx:37, name:"Homme 2005", house:"Dior"},
-  {idx:38, name:"Bois Impérial", house:"Essential Parfums"},
-  {idx:46, name:"Homme Intense", house:"Dior"},
-  {idx:47, name:"1725 Casanova", house:"Histoires de Parfums"},
-  {idx:48, name:"Femme", house:"Rochas"},
-  {idx:51, name:"Neroli Canvas", house:"Al Haramain"},
-  {idx:52, name:"L'Homme", house:"Prada"},
-];
+let discountSelections = []; // up to 2 selected for discount
 
 function openFreeModal(){
-  const list = document.getElementById('freeList');
-  list.innerHTML = freeEligible.map((p,i) => `
-    <div class="free-item ${freeSelection===i?'selected-free':''}" onclick="selectFree(${i})">
-      <span class="fi-house">${p.house}</span>
-      <span class="fi-name">${p.name}</span>
-      <span class="fi-size">3ml · Gratis 🎁</span>
-    </div>`).join('');
-  document.getElementById('btnConfirmFree').disabled = freeSelection === null;
+  renderDiscList();
   document.getElementById('freeModalOverlay').classList.add('visible');
   document.body.style.overflow = 'hidden';
 }
 
-function selectFree(i){
-  freeSelection = i;
-  document.querySelectorAll('.free-item').forEach((el,idx) => {
-    el.classList.toggle('selected-free', idx === i);
-  });
-  document.getElementById('btnConfirmFree').disabled = false;
+function renderDiscList(){
+  const list = document.getElementById('freeList');
+  list.innerHTML = discountEligible.map((p,i) => {
+    const inCart = !!selections[p.idx];
+    const isSelected = discountSelections.includes(i);
+    const disc3 = Math.round(p.prices[0] * 0.75);
+    const disc5 = Math.round(p.prices[1] * 0.75);
+    const disc10 = Math.round(p.prices[2] * 0.75);
+    return `
+      <div class="disc-item ${isSelected?'selected-disc':''} ${inCart&&!isSelected?'in-cart':''}"
+           onclick="toggleDiscount(${i})">
+        <span class="di-house">${p.house}</span>
+        <span class="di-name">${p.name}</span>
+        <div class="di-prices">
+          <span class="di-original">${fmt(p.prices[0])}</span>
+          <span class="di-discounted">${fmt(disc3)}</span>
+          <span class="di-badge">−25%</span>
+        </div>
+        <div style="font-size:8px;color:var(--text-dim);margin-top:2px;">
+          5ml: ${fmt(disc5)} · 10ml: ${fmt(disc10)}
+        </div>
+      </div>`;
+  }).join('');
+  updateDiscSummary();
+}
+
+function toggleDiscount(i){
+  const idx = discountSelections.indexOf(i);
+  if(idx > -1){
+    discountSelections.splice(idx,1);
+  } else {
+    if(discountSelections.length >= 2) {
+      discountSelections.shift(); // replace oldest if already 2
+    }
+    discountSelections.push(i);
+  }
+  renderDiscList();
+}
+
+function updateDiscSummary(){
+  const btn = document.getElementById('btnConfirmFree');
+  const summary = document.getElementById('discSummary');
+  if(discountSelections.length === 0){
+    btn.disabled = true;
+    summary.textContent = 'Selecciona hasta 2 perfumes para aplicar el 25% de descuento.';
+  } else {
+    btn.disabled = false;
+    const names = discountSelections.map(i => discountEligible[i].name).join(' y ');
+    summary.textContent = `Descuento aplicado a: ${names}. Los precios se actualizarán en tu selección.`;
+  }
 }
 
 function confirmFree(){
-  if(freeSelection === null) return;
-  const p = freeEligible[freeSelection];
-  document.getElementById('freeModalOverlay').classList.remove('visible');
-  document.body.style.overflow = '';
-  // Update banner to show selected
-  document.querySelector('.fdb-title').textContent = `🎁 Regalo: ${p.name} (3ml)`;
-  document.querySelector('.fdb-sub').innerHTML = `Tu decant gratis está confirmado · <strong>${p.house}</strong>`;
+  if(discountSelections.length === 0) return;
+  discountSelections.forEach(i => {
+    const p = discountEligible[i];
+    const pidx = p.idx;
+    if(selections[pidx]){
+      // Update price with 25% discount
+      const sizeIdx = selections[pidx].sizeIdx;
+      selections[pidx].price = Math.round(p.prices[sizeIdx] * 0.75);
+      selections[pidx].discounted = true;
+    }
+  });
+  closeFreeModal();
+  updateSummary();
+  // Update banner
+  document.querySelector('.fdb-title').textContent = '🏷️ Descuento del 25% aplicado';
+  document.querySelector('.fdb-sub').innerHTML = `En <strong>${discountSelections.length} perfume(s)</strong> de tu selección`;
   document.querySelector('.btn-choose-free').textContent = 'Cambiar →';
 }
 
