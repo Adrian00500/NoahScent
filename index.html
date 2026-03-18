@@ -475,13 +475,13 @@
     .quiz-options { grid-template-columns:1fr; padding:20px; }
     .quiz-results-list { grid-template-columns:1fr; }
     .quiz-header,.quiz-nav,.quiz-results-actions { padding-left:20px; padding-right:20px; }
-    .quiz-fab { bottom:16px; right:16px; padding:12px 16px; font-size:8px; }
+    .quiz-fab { bottom:16px; right:16px; padding:11px 14px; font-size:8px; }
   }
 
   /* FLOATING FACT BUBBLES */
   .fact-bubble {
     position:fixed; bottom:28px; left:28px; z-index:500;
-    max-width:300px; background:var(--card);
+    max-width:280px; background:var(--card);
     border:1px solid var(--border-gold);
     padding:16px 20px 14px;
     pointer-events:none;
@@ -575,8 +575,12 @@
     header{padding:56px 16px 44px;}
     .catalog{gap:16px;padding:36px 16px 50px;}
     .sticky{padding:10px 16px;}
-    .free-list{grid-template-columns:1fr;}
-    .fact-bubble{left:16px;right:16px;max-width:none;bottom:16px;}
+    .disc-list{grid-template-columns:1fr;}
+    /* Fact bubble sits ABOVE the quiz FAB on mobile so they never overlap */
+    .fact-bubble{
+      left:12px; right:12px; max-width:none;
+      bottom:76px; /* clears the quiz FAB height */
+    }
   }
 </style>
 </head>
