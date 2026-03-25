@@ -88,6 +88,16 @@
   }
   .sticky-lbl { font-size:7px; letter-spacing:5px; color:var(--text-dim); text-transform:uppercase; margin-bottom:2px; }
   .sticky-total { font-family:'Cormorant Garamond',serif; font-size:30px; font-weight:600; color:var(--gold); }
+  .sticky-total.bump {
+    animation: totalBump .35s cubic-bezier(.4,0,.2,1);
+  }
+  @keyframes totalBump {
+    0%   { transform:scale(1); }
+    40%  { transform:scale(1.18); color:#E8C97A; }
+    100% { transform:scale(1); }
+  }
+  /* Card hidden by filter */
+  .card.filtered-out { display:none; }
   .sticky-count { font-size:10px; color:var(--text-dim); letter-spacing:2px; }
   .btn-clear {
     background:transparent; border:1px solid var(--border-gold);
@@ -116,9 +126,92 @@
   .btn-ig-sticky.visible { display:inline-flex; }
 
   /* CATALOG */
+  /* ── FILTER BAR ── */
+  .filter-bar {
+    max-width:1440px; margin:0 auto;
+    padding:0 28px 0;
+  }
+  .filter-inner {
+    border:1px solid var(--border);
+    background:var(--card);
+    padding:18px 24px;
+    display:flex; align-items:center; gap:12px;
+    flex-wrap:wrap;
+  }
+  .filter-label {
+    font-size:7px; letter-spacing:4px; color:var(--gold-dim);
+    text-transform:uppercase; white-space:nowrap; margin-right:4px;
+  }
+  .filter-search {
+    background:transparent; border:1px solid var(--border);
+    color:var(--text); font-family:'Montserrat',sans-serif;
+    font-size:11px; padding:8px 14px; outline:none;
+    transition:border-color .25s; flex:1; min-width:160px;
+    letter-spacing:.5px;
+  }
+  .filter-search::placeholder { color:var(--text-dim); font-size:10px; }
+  .filter-search:focus { border-color:var(--gold-dim); }
+  .filter-btn {
+    background:transparent; border:1px solid var(--border);
+    color:var(--text-dim); font-family:'Montserrat',sans-serif;
+    font-size:8px; letter-spacing:2px; text-transform:uppercase;
+    padding:8px 14px; cursor:pointer; transition:all .22s;
+    white-space:nowrap;
+  }
+  .filter-btn:hover { border-color:var(--gold-dim); color:var(--text); }
+  .filter-btn.active { border-color:var(--gold); color:var(--gold); background:rgba(184,151,90,.07); }
+  .filter-count {
+    font-size:8px; letter-spacing:2px; color:var(--text-dim);
+    margin-left:auto; white-space:nowrap;
+  }
+  .filter-count span { color:var(--gold); }
+
+  /* ── PROGRESS INDICATOR ── */
+  .discount-progress {
+    max-width:1440px; margin:0 auto;
+    padding:16px 28px 0;
+    display:none;
+  }
+  .discount-progress.visible { display:block; }
+  .dp-inner {
+    border:1px solid var(--border-gold);
+    background:var(--card);
+    padding:14px 22px;
+    display:flex; align-items:center; gap:16px; flex-wrap:wrap;
+  }
+  .dp-text {
+    font-size:9px; letter-spacing:2px; color:var(--text-dim);
+    text-transform:uppercase; flex-shrink:0;
+  }
+  .dp-text strong { color:var(--gold-light); }
+  .dp-bar-wrap {
+    flex:1; min-width:120px; height:3px;
+    background:var(--border); position:relative;
+  }
+  .dp-bar-fill {
+    height:100%; background:var(--gold);
+    transition:width .5s cubic-bezier(.4,0,.2,1);
+    position:relative;
+  }
+  .dp-bar-fill::after {
+    content:'';
+    position:absolute; right:-4px; top:-3px;
+    width:9px; height:9px; border-radius:50%;
+    background:var(--gold);
+  }
+  .dp-badge {
+    font-size:8px; font-weight:600; letter-spacing:2px;
+    background:rgba(184,151,90,.12); border:1px solid var(--border-gold);
+    color:var(--gold); padding:4px 10px; text-transform:uppercase;
+    white-space:nowrap; flex-shrink:0;
+  }
+  .dp-badge.unlocked {
+    background:rgba(80,180,80,.12); border-color:#3A6020; color:#80C040;
+  }
+
   .catalog {
     max-width:1440px; margin:0 auto;
-    padding:56px 28px 80px;
+    padding:28px 28px 80px;
     display:grid;
     grid-template-columns:repeat(auto-fill,minmax(295px,1fr));
     gap:28px;
@@ -606,6 +699,33 @@
   </div>
 </div>
 
+<!-- FILTER BAR -->
+<div class="filter-bar">
+  <div class="filter-inner">
+    <span class="filter-label">🔍 Filtrar</span>
+    <input class="filter-search" id="filterSearch" type="text" placeholder="Buscar perfume o casa..." oninput="applyFilters()">
+    <button class="filter-btn active" data-filter="all" onclick="setFilter('all',this)">Todos</button>
+    <button class="filter-btn" data-filter="floral" onclick="setFilter('floral',this)">Floral</button>
+    <button class="filter-btn" data-filter="oriental" onclick="setFilter('oriental',this)">Oriental</button>
+    <button class="filter-btn" data-filter="amaderado" onclick="setFilter('amaderado',this)">Amaderado</button>
+    <button class="filter-btn" data-filter="fresco" onclick="setFilter('fresco',this)">Fresco</button>
+    <button class="filter-btn" data-filter="cuero" onclick="setFilter('cuero',this)">Cuero</button>
+    <button class="filter-btn" data-filter="chipre" onclick="setFilter('chipre',this)">Chipre</button>
+    <span class="filter-count" id="filterCount">Mostrando <span id="filterNum">57</span> fragancias</span>
+  </div>
+</div>
+
+<!-- DISCOUNT PROGRESS -->
+<div class="discount-progress" id="discountProgress">
+  <div class="dp-inner">
+    <span class="dp-text" id="dpText">Selecciona <strong>3 perfumes</strong> para desbloquear el 25%</span>
+    <div class="dp-bar-wrap">
+      <div class="dp-bar-fill" id="dpBarFill" style="width:0%"></div>
+    </div>
+    <span class="dp-badge" id="dpBadge">🏷️ 25% OFF</span>
+  </div>
+</div>
+
 <div class="catalog" id="catalog"></div>
 
 <!-- DISCOUNT BANNER -->
@@ -928,10 +1048,16 @@ function updateSummary(){
   const items=Object.values(selections);
   const total=items.reduce((s,i)=>s+i.price,0);
   const count=items.length;
-  document.getElementById('totalPrice').textContent=fmt(total);
+
+  // Animated total
+  animateTotal(total);
+
   document.getElementById('itemCount').textContent=count+(count===1?' perfume seleccionado':' perfumes seleccionados');
   document.getElementById('summaryTotal').textContent=fmt(total);
   document.getElementById('modalTotal').textContent=fmt(total);
+
+  // Progress bar toward discount
+  updateProgress(count);
 
   const btnPay = document.getElementById('btnPaySticky');
   if(count > 0) btnPay.classList.add('visible');
@@ -1129,7 +1255,98 @@ setTimeout(() => {
   setInterval(showFact, 20000);
 }, 5000);
 
-// ── PERFUME QUIZ ──
+// ── FILTERS ──
+let activeFilter = 'all';
+
+const familyMap = {
+  floral:    p => p.family && /floral|rosa|flor/i.test(p.family),
+  oriental:  p => p.family && /oriental|oud|ambar|ámbar|avain|tabac|inciens|fougère|almiz|dulce/i.test(p.family),
+  amaderado: p => p.family && /amaderad/i.test(p.family),
+  fresco:    p => p.family && /fresc|cítric|marin|salad|acuát|verde|aromát|citric/i.test(p.family),
+  cuero:     p => p.family && /cuero|animalic|tabac/i.test(p.family),
+  chipre:    p => p.family && /chipre/i.test(p.family),
+};
+
+function setFilter(filter, btn) {
+  activeFilter = filter;
+  document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  applyFilters();
+}
+
+function applyFilters() {
+  const search = document.getElementById('filterSearch').value.toLowerCase().trim();
+  let visible = 0;
+
+  perfumes.forEach((p, i) => {
+    const card = document.getElementById('card-' + i);
+    if (!card) return;
+
+    // Get quiz data for this perfume
+    const qp = quizPerfumes.find(q => q.i === i);
+
+    // Search match
+    const searchMatch = !search ||
+      p.name.toLowerCase().includes(search) ||
+      p.house.toLowerCase().includes(search) ||
+      (p.detail && p.detail.toLowerCase().includes(search));
+
+    // Family match
+    let familyMatch = activeFilter === 'all';
+    if (!familyMatch && qp) {
+      familyMatch = familyMap[activeFilter] ? familyMap[activeFilter](qp) : true;
+    }
+
+    if (searchMatch && familyMatch) {
+      card.classList.remove('filtered-out');
+      visible++;
+    } else {
+      card.classList.add('filtered-out');
+    }
+  });
+
+  document.getElementById('filterNum').textContent = visible;
+  document.getElementById('discountProgress').classList.add('visible');
+}
+
+// ── ANIMATED TOTAL ──
+function animateTotal(newValue) {
+  const el = document.getElementById('totalPrice');
+  el.classList.remove('bump');
+  void el.offsetWidth; // reflow
+  el.textContent = fmt(newValue);
+  el.classList.add('bump');
+  setTimeout(() => el.classList.remove('bump'), 400);
+}
+
+// ── PROGRESS INDICATOR ──
+function updateProgress(count) {
+  const progress = document.getElementById('discountProgress');
+  const bar = document.getElementById('dpBarFill');
+  const text = document.getElementById('dpText');
+  const badge = document.getElementById('dpBadge');
+
+  progress.classList.add('visible');
+
+  if (count === 0) {
+    progress.classList.remove('visible');
+    return;
+  }
+
+  const pct = Math.min((count / 3) * 100, 100);
+  bar.style.width = pct + '%';
+
+  if (count >= 3) {
+    text.innerHTML = '🎉 <strong>¡Descuento desbloqueado!</strong> — 25% en fragancias seleccionadas';
+    badge.textContent = '✅ ACTIVO';
+    badge.classList.add('unlocked');
+  } else {
+    const remaining = 3 - count;
+    text.innerHTML = `Añade <strong>${remaining} perfume${remaining > 1 ? 's' : ''} más</strong> para desbloquear el 25%`;
+    badge.textContent = '🏷️ 25% OFF';
+    badge.classList.remove('unlocked');
+  }
+}
 const quizPerfumes = [
   {i:0,  house:"Xerjoff",       name:"Pikovaya Dama",        family:"Floral Aldehídico",    gender:["F","U"],  occasion:["special","night"],       climate:["cold","temperate"]},
   {i:1,  house:"Areej Le Doré", name:"Russian Oud",          family:"Oriental Amaderado",   gender:["M","U"],  occasion:["night","special"],       climate:["cold","temperate"]},
@@ -1409,6 +1626,8 @@ function closeQuizAndScroll(idx){
 
 const catalog=document.getElementById('catalog');
 perfumes.forEach((p,i)=>catalog.appendChild(buildCard(p,i)));
+// Initialize filter count
+document.getElementById('filterNum').textContent = perfumes.length;
 </script>
 </body>
 </html>
