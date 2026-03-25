@@ -209,6 +209,164 @@
     background:rgba(80,180,80,.12); border-color:#3A6020; color:#80C040;
   }
 
+  /* ── DETAIL MODAL ── */
+  .detail-overlay {
+    display:none; position:fixed; inset:0;
+    background:rgba(0,0,0,.92); backdrop-filter:blur(16px);
+    z-index:900; align-items:center; justify-content:center;
+    padding:16px; overflow-y:auto;
+  }
+  .detail-overlay.visible { display:flex; }
+
+  .detail-modal {
+    background:var(--card); border:1px solid var(--border-gold);
+    max-width:680px; width:100%;
+    max-height:92vh; overflow-y:auto;
+    animation:fadeUp .35s ease both;
+    position:relative;
+  }
+
+  .detail-header {
+    display:flex; gap:0; position:relative;
+  }
+
+  .detail-img {
+    width:200px; min-height:240px; flex-shrink:0;
+    object-fit:contain; background:#111;
+    display:block;
+  }
+
+  .detail-header-info {
+    flex:1; padding:28px 28px 24px;
+    background:linear-gradient(135deg,#17140E,#211F1B);
+    border-left:1px solid var(--border-gold);
+    display:flex; flex-direction:column; justify-content:space-between;
+  }
+
+  .detail-close {
+    position:absolute; top:14px; right:18px;
+    background:transparent; border:none; color:var(--text-dim);
+    font-size:20px; cursor:pointer; z-index:10;
+    transition:color .2s; line-height:1;
+  }
+  .detail-close:hover { color:var(--gold); }
+
+  .detail-house {
+    font-size:8px; letter-spacing:4px; color:var(--gold-dim);
+    text-transform:uppercase; margin-bottom:6px;
+  }
+
+  .detail-name {
+    font-family:'Cormorant Garamond',serif;
+    font-size:clamp(22px,3vw,30px); font-weight:300;
+    color:var(--text); letter-spacing:1px; line-height:1.1;
+    margin-bottom:8px;
+  }
+
+  .detail-family {
+    font-size:9px; letter-spacing:2px; color:var(--gold);
+    text-transform:uppercase; margin-bottom:16px;
+  }
+
+  .detail-ratings {
+    display:flex; flex-direction:column; gap:8px;
+  }
+
+  .rating-row {
+    display:flex; align-items:center; gap:10px;
+  }
+
+  .rating-label {
+    font-size:7px; letter-spacing:3px; color:var(--text-dim);
+    text-transform:uppercase; min-width:72px;
+  }
+
+  .rating-bar {
+    flex:1; height:2px; background:var(--border); position:relative;
+  }
+
+  .rating-fill {
+    height:100%; background:var(--gold);
+    transition:width .8s cubic-bezier(.4,0,.2,1);
+  }
+
+  .rating-value {
+    font-size:9px; color:var(--gold-dim); min-width:28px; text-align:right;
+  }
+
+  .detail-body {
+    padding:24px 28px 28px;
+  }
+
+  .detail-desc {
+    font-size:11px; color:var(--text-dim); line-height:1.85;
+    letter-spacing:.3px; margin-bottom:24px;
+    border-left:2px solid var(--border-gold);
+    padding-left:16px;
+  }
+  .detail-desc em { color:var(--gold-light); font-style:normal; }
+
+  .notes-section { margin-bottom:20px; }
+
+  .notes-title {
+    font-size:7px; letter-spacing:4px; color:var(--gold-dim);
+    text-transform:uppercase; margin-bottom:12px;
+    padding-bottom:8px; border-bottom:1px solid var(--border);
+    display:flex; align-items:center; gap:8px;
+  }
+  .notes-title::before { content:''; flex:1; height:1px; background:var(--border); }
+  .notes-title::after { content:''; flex:1; height:1px; background:var(--border); }
+
+  .notes-grid {
+    display:grid; grid-template-columns:repeat(3,1fr); gap:12px;
+  }
+
+  .notes-col { }
+
+  .notes-col-label {
+    font-size:7px; letter-spacing:3px; color:var(--text-dim);
+    text-transform:uppercase; margin-bottom:8px;
+  }
+
+  .note-pill {
+    display:inline-block; background:rgba(184,151,90,.07);
+    border:1px solid var(--border-gold);
+    color:var(--text-dim); font-size:9px; letter-spacing:.5px;
+    padding:4px 10px; margin:3px 3px 0 0;
+    line-height:1.4;
+  }
+
+  .detail-footer {
+    padding:0 28px 24px;
+    display:flex; justify-content:space-between; align-items:center;
+    flex-wrap:wrap; gap:12px;
+    border-top:1px solid var(--border);
+    padding-top:18px;
+  }
+
+  .detail-price-info { }
+  .dpi-label { font-size:7px; letter-spacing:3px; color:var(--text-dim); text-transform:uppercase; margin-bottom:4px; }
+  .dpi-prices { display:flex; gap:12px; flex-wrap:wrap; }
+  .dpi-price { font-family:'Cormorant Garamond',serif; font-size:18px; color:var(--gold); }
+  .dpi-size { font-size:7px; color:var(--text-dim); letter-spacing:1px; }
+
+  .btn-detail-select {
+    background:var(--gold); border:none; color:var(--black);
+    font-family:'Montserrat',sans-serif; font-size:8px; font-weight:600;
+    letter-spacing:3px; text-transform:uppercase; padding:12px 24px;
+    cursor:pointer; transition:all .3s;
+  }
+  .btn-detail-select:hover { background:var(--gold-light); }
+
+  /* Click hint on card */
+  .card-detail-hint {
+    font-size:7px; letter-spacing:3px; color:var(--text-dim);
+    text-transform:uppercase; text-align:center;
+    padding:6px 0 0; cursor:pointer;
+    transition:color .2s;
+  }
+  .card:hover .card-detail-hint { color:var(--gold-dim); }
+
   .catalog {
     max-width:1440px; margin:0 auto;
     padding:28px 28px 80px;
@@ -840,6 +998,38 @@
   </div>
 </div>
 
+<!-- DETAIL MODAL -->
+<div class="detail-overlay" id="detailOverlay" onclick="closeDetailOutside(event)">
+  <div class="detail-modal" id="detailModal">
+    <button class="detail-close" onclick="closeDetail()">✕</button>
+    <div class="detail-header">
+      <img class="detail-img" id="detailImg" src="" alt=""/>
+      <div class="detail-header-info">
+        <div>
+          <div class="detail-house" id="detailHouse"></div>
+          <div class="detail-name" id="detailName"></div>
+          <div class="detail-family" id="detailFamily"></div>
+        </div>
+        <div class="detail-ratings" id="detailRatings"></div>
+      </div>
+    </div>
+    <div class="detail-body">
+      <div class="detail-desc" id="detailDesc"></div>
+      <div class="notes-section">
+        <div class="notes-title">Notas Olfativas</div>
+        <div class="notes-grid" id="detailNotes"></div>
+      </div>
+    </div>
+    <div class="detail-footer">
+      <div class="detail-price-info">
+        <div class="dpi-label">Precios</div>
+        <div class="dpi-prices" id="detailPrices"></div>
+      </div>
+      <button class="btn-detail-select" id="btnDetailSelect">Seleccionar tamaño ↓</button>
+    </div>
+  </div>
+</div>
+
 <footer>Noah Scents Decants &nbsp;·&nbsp; Precios en pesos dominicanos &nbsp;·&nbsp; Selección 2025</footer>
 
 <script>
@@ -1023,6 +1213,7 @@ function buildCard(p, i) {
           </button>`).join('')}
       </div>
       <div class="selected-tag" id="tag-${i}">✦ &nbsp;Añadido a tu selección</div>
+      <div class="card-detail-hint" onclick="openDetail(${i})">✦ &nbsp;Ver notas & detalles</div>
     </div>`;
   return card;
 }
@@ -1255,7 +1446,134 @@ setTimeout(() => {
   setInterval(showFact, 20000);
 }, 5000);
 
-// ── FILTERS ──
+// ── PERFUME DETAILS ──
+const perfumeDetails = [
+  {top:["Limón","Bergamota","Aldehídos","Neroli"],heart:["Rosa","Iris","Jazmín","Ylang-ylang"],base:["Sándalo","Almizcle","Ámbar","Vainilla"],desc:"Una joya floral aldehídica que homenajea a los grandes clásicos rusos. El Pikovaya Dama de Xerjoff es una fragancia de corte imperial, opulenta y femenina, con apertura brillante de aldehídos y cítricos que evoluciona hacia un corazón floral de rosas e iris.",longevity:90,sillage:80,family:"Floral Aldehídico"},
+  {top:["Oud","Café","Azafrán"],heart:["Rosa","Incienso","Cuero"],base:["Ámbar","Musgo","Resina"],desc:"Una de las fragancias de nicho más aclamadas del mundo. Russian Oud de Areej Le Doré es un oud ruso oscuro, profundo y animalico que combina el cuero más opulento con café, azafrán y resinas orientales. Una experiencia olfativa sin igual.",longevity:98,sillage:95,family:"Oriental Amaderado"},
+  {top:["Pimienta rosa","Naranja sanguina","Bergamota"],heart:["Oud","Rosa","Jazmín"],base:["Sándalo","Patchuli","Ámbar"],desc:"Vintage y ultra raro. El Sahraa Oud EDP de Fragrance Du Bois es una oda al oud del desierto — cálido, arenoso y sensual, con capas de rosa y jazmín que envuelven una base de sándalo y patchuli de extraordinaria complejidad.",longevity:95,sillage:90,family:"Oriental Amaderado"},
+  {top:["Lima","Jengibre","Cardamomo"],heart:["Ciprés","Lavanda","Geranio"],base:["Cedro","Vetiver","Cuero"],desc:"Descontinuado y codiciado. Cypress de Clive Christian es un homenaje al árbol del ciprés mediterráneo — verde, fresco y aromático, con jengibre y cardamomo que le dan profundidad. Una fragancia masculina de coleccionista.",longevity:85,sillage:75,family:"Aromático Verde"},
+  {top:["Limón","Manzana verde","Bergamota"],heart:["Rosa","Incienso","Especias"],base:["Oud","Ámbar","Sándalo"],desc:"Promise de Frédéric Malle por Dominique Ropion es una promesa de amor escrita en notas orientales florales. La rosa se abraza al incienso y al oud en una danza seductora de Oriente y Occidente.",longevity:88,sillage:82,family:"Oriental Floral"},
+  {top:["Limón","Bergamota","Cardamomo"],heart:["Lavanda","Jazmín","Clavo"],base:["Sándalo","Cuero","Ámbar"],desc:"Invasion Barbare de Parfum MDCI es una fougère imperial de corte clásico, perfumada con la elegancia de la barbarie civilizada. Lavanda y especias sobre un fondo de sándalo y cuero que evoca a los grandes parfumeurs del siglo XX.",longevity:87,sillage:80,family:"Fougère Floral"},
+  {top:["Clementina","Aldehídos","Bergamota"],heart:["Lavanda","Flores blancas","Rosa"],base:["Musgo de roble","Sándalo","Castóreo","Cuero","Vainilla"],desc:"Un chipre palatino de extraordinaria sofisticación. Chypre Palatin de Parfum MDCI es la esencia de la elegancia francesa — aldehídos brillantes sobre un corazón floral y una base de musgo, castóreo y vainilla de impresionante calidad.",longevity:90,sillage:85,family:"Chipre Frutal"},
+  {top:["Lima","Pimienta negra","Cardamomo"],heart:["Almizcle","Sándalo","Resina"],base:["Ámbar","Madera de oud","Vainilla"],desc:"Necalli de Zek es una fragancia azteca contemporánea — misteriosa, almizclada y amaderada, con una apertura especiada que evoluciona hacia una base de ámbar y vainilla de carácter intenso y envolvente.",longevity:88,sillage:80,family:"Almizclado Amaderado"},
+  {top:["Naranja","Clavo","Anís"],heart:["Rosa","Incienso","Patchuli"],base:["Ámbar","Sándalo","Cacao"],desc:"Blonde Amber de Clive Christian es el perfume más oscuro y seductor de la colección Noble. Notas de naranja y clavo abren paso a un corazón de rosa e incienso sobre una base de ámbar y cacao de máxima opulencia.",longevity:92,sillage:88,family:"Oriental Ambarado"},
+  {top:["Rosa","Pimienta rosa","Frutas"],heart:["Oud","Jazmín","Geranio"],base:["Sándalo","Musgo","Almizcle"],desc:"Ghala de Jazeel es un parfum árabe de alta perfumería que captura la grandiosidad del oud oriental. Rosa, pimienta y frutas dulces se fusionan con oud y sándalo en una fragancia de presencia majestuosa.",longevity:92,sillage:88,family:"Amaderado Floral"},
+  {top:["Bergamota","Azafrán","Pimienta"],heart:["Rosa","Oud","Flores blancas"],base:["Sándalo","Ámbar","Almizcle"],desc:"Fars de la colección Oud Stars de Xerjoff es una interpretación poética del oud persa. Azafrán y bergamota se funden con rosa y oud en una composición de lujo máximo que evoca los jardines de la antigua Persia.",longevity:93,sillage:88,family:"Oriental Floral"},
+  {top:["Higos","Bergamota","Pimienta negra"],heart:["Rosa","Miel","Whisky"],base:["Oud","Vainilla","Sándalo","Resina"],desc:"Nefs de Nishane — que significa alma en turco — es una fragancia de profundidad extraordinaria. La miel, el higo y el whisky envuelven el oud en una composición opulenta, oscura y absolutamente seductora.",longevity:92,sillage:87,family:"Oriental Floral Amaderado"},
+  {top:["Piña","Limón","Manzana"],heart:["Jazmín","Rosa","Cilantro"],base:["Sándalo","Cedro","Almizcle"],desc:"1872 For Man de Clive Christian rinde homenaje al año en que la reina Victoria declaró la colonia Crown Perfumery como la perfumería oficial de la corona. Fresco, frutal y amaderado — un caballero perfecto.",longevity:84,sillage:76,family:"Fougère Floral Amaderado"},
+  {top:["Musgo","Violeta","Bergamota"],heart:["Vetiver","Cedro","Iris"],base:["Musgo de roble","Almizcle","Sándalo"],desc:"Mousse Illuminée de Rogue Perfumery es una exploración avant-garde del musgo iluminado. Verde, húmedo y luminoso, con violeta y vetiver sobre un fondo de musgo de roble — una fragancia para conocedores de aromas verdes únicos.",longevity:82,sillage:72,family:"Amaderado Verde"},
+  {top:["Azafrán","Rosa","Oud"],heart:["Incienso","Patchuli","Cuero"],base:["Ámbar","Sándalo","Almizcle"],desc:"Royal Oud de Arabian Oud es la fragancia de la realeza árabe. Azafrán y rosa abren paso a un corazón de incienso y cuero sobre una base de ámbar profundo — una composición de presencia real e inconfundible.",longevity:93,sillage:90,family:"Amaderado Almizclado"},
+  {top:["Limón","Bergamota","Pomelo"],heart:["Lavanda","Iris","Geranio"],base:["Cedro","Almizcle","Vetiver"],desc:"Mefisto Gentiluomo de Casamorati por Xerjoff es un caballero florentino en toda su gloria. Cítricos brillantes y lavanda sobre cedro y almizcle — fresca, elegante y perfectamente masculina.",longevity:82,sillage:74,family:"Fougère Atalcado"},
+  {top:["Lima","Pomelo","Bergamota"],heart:["Pimienta rosa","Notas verdes","Flores blancas"],base:["Cedro","Sándalo","Almizcle"],desc:"Stand Out de Bruno Perucci vive a la altura de su nombre. Cítricos tropicales sobre notas verdes y un fondo amaderado — moderna, veraniega y con la presencia exacta para destacar sin abrumar.",longevity:80,sillage:72,family:"Amaderado Verde"},
+  {top:["Bergamota","Cardamomo","Té negro"],heart:["Iris","Violeta","Rosa"],base:["Sándalo","Vainilla","Ámbar"],desc:"Gris Charnel Extrait de BDK Parfums es una sinfonía en gris — elegante, sutil y de una sofisticación parisina impecable. Cardamomo y té negro evolucionan hacia iris y violeta sobre una base de sándalo y vainilla extraordinariamente refinada.",longevity:88,sillage:82,family:"Amaderado Especiado"},
+  {top:["Bergamota","Canela","Cardamomo"],heart:["Rosa","Jazmín","Especias"],base:["Oud","Ámbar","Sándalo","Vainilla"],desc:"Sublimizia de Bruno Perucci es un oriental dulce de carácter voluptuoso. La canela y el cardamomo se combinan con rosas y especias sobre una base de oud y vainilla — una fragancia cálida y seductora perfecta para noches especiales.",longevity:88,sillage:83,family:"Oriental Dulce"},
+  {top:["Limón","Cardamomo","Incienso"],heart:["Oud","Rosa","Resinas"],base:["Ámbar","Cuero","Vainilla"],desc:"Proibito Unico — lo Prohibido — es exactamente eso: una fragancia que no debería oler tan bien. Incienso y cardamomo sobre oud y resinas en una composición oscura, ahumada y absolutamente fascinante.",longevity:90,sillage:85,family:"Ambarado Ahumado"},
+  {top:["Limón","Naranja","Bergamota"],heart:["Jazmín","Rosa","Osmanthus"],base:["Ámbar","Sándalo","Almizcle"],desc:"Note di Colonia IV de Acqua di Parma es la cuarta entrega de su colección más exclusiva. Cítricos luminosos abren paso a un corazón floral oriental de extraordinaria elegancia italiana, con una base cálida y envolvente.",longevity:82,sillage:76,family:"Oriental Floral"},
+  {top:["Sal marina","Algas","Cítricos"],heart:["Iris","Flores blancas","Miel"],base:["Cedro","Almizcle","Madera seca"],desc:"Acqua di Sale de Profvmvm Roma captura el olor del mar en Roma. Sal, algas y cítricos sobre flores blancas y miel — una fragancia marina de alta perfumería que evoca los veranos en el Mediterráneo.",longevity:78,sillage:70,family:"Marina Salada"},
+  {top:["Vainilla","Ylang-ylang","Bergamota"],heart:["Vainilla planifolia","Flor de tiaré","Jazmín"],base:["Sándalo","Ámbar","Almizcle"],desc:"El Extrait más exclusivo de Guerlain. Vanille Planifolia 21 es la vainilla planifolia de Madagascar en su expresión más pura y lujosa. Envolvente, cremosa y de una riqueza olfativa que justifica cada centavo de su precio.",longevity:96,sillage:88,family:"Avainillado Ambarado"},
+  {top:["Manzana verde","Melocotón","Bergamota"],heart:["Rosa","Jazmín","Flores blancas"],base:["Ámbar","Vainilla","Resinas","Sándalo"],desc:"Triumph of Bacchus de Argos en versión Pre-Reform es un oriental especiado de coleccionista. La manzana y el melocotón se funden con rosas y resinas en una composición dionisíaca de extraordinaria profundidad.",longevity:91,sillage:86,family:"Oriental Especiado"},
+  {top:["Café","Cacao","Cardamomo"],heart:["Oud","Rosa","Incienso"],base:["Sándalo","Vainilla","Nuez moscada"],desc:"Soul of Oud de Ramon Monegal es exactamente el alma del oud — profunda, oscura y espiritual. Café y cacao abren un corazón de oud e incienso sobre sándalo y vainilla, creando una experiencia olfativa verdaderamente transformadora.",longevity:92,sillage:87,family:"Amaderado Floral"},
+  {top:["Grosella negra","Limón","Bergamota"],heart:["Rosa","Palo de rosa","Geranio"],base:["Sándalo","Cedro","Vetiver","Almizcle"],desc:"Richwood de Xerjoff Stone Label 17/17 es una rica exploración de la madera noble. Grosella negra y cítricos sobre rosa y palo de rosa, culminando en una base de sándalo y cedro de extraordinaria profundidad.",longevity:90,sillage:85,family:"Chipre Amaderado"},
+  {top:["Bergamota","Lavanda","Iris"],heart:["Iris","Cuero","Suède"],base:["Vetiver","Cedro","Ámbar"],desc:"Dior Homme Parfum es la versión más oscura e intensa del icónico Dior Homme. Iris y cuero en su expresión más masculina y sofisticada — una fragancia descontinuada que redefine el concepto de elegancia masculina.",longevity:91,sillage:84,family:"Cuero Atalcado"},
+  {top:["Lima","Chile","Menta"],heart:["Vetiver","Notas verdes","Pimienta"],base:["Cedro","Sándalo","Musgo"],desc:"Lunar Vetiver de Amoroud captura la esencia del vetiver bajo la luna. Chile y menta aportan frescura inesperada sobre el vetiver terroso y el cedro — una fragancia única para el amante de los verdes intensos.",longevity:84,sillage:76,family:"Amaderado Especiado"},
+  {top:["Bergamota","Oud azul","Notas acuáticas"],heart:["Jazmín","Rosa","Geranio"],base:["Sándalo","Almizcle","Ámbar"],desc:"Blue Oud de Arabian Oud es el oud reimaginado en clave acuática y misteriosa. El oud azul — una variedad sintética de tonos marinos — se combina con jazmín y sándalo en una fragancia que une Oriente y Occidente.",longevity:88,sillage:83,family:"Amaderado Animalico"},
+  {top:["Pomelo","Manzana verde","Mandarina"],heart:["Pimienta rosa","Lavanda","Notas verdes"],base:["Cedro","Sándalo","Almizcle","Vetiver"],desc:"Elysium Parfum Cologne de Roja Parfums es la reinterpretación moderna de una clásica eau de cologne. Frutas frescas y lavanda sobre cedro y sándalo — perfecta para el hombre que quiere oler impecable sin esfuerzo.",longevity:80,sillage:72,family:"Cítrico Amaderado"},
+  {top:["Naranja sanguina","Bergamota","Azafrán"],heart:["Oud","Rosa","Incienso"],base:["Sándalo","Resinas","Ámbar"],desc:"Amber Intense de Fragrance Du Bois es un oriental ambarado de gran intensidad. La naranja sanguina y el azafrán se funden con oud e incienso sobre resinas y sándalo — cálido, rico y absolutamente seductor.",longevity:90,sillage:85,family:"Oriental Ambarado"},
+  {top:["Cardamomo","Pimienta negra","Pomelo"],heart:["Rosa","Oud","Cuero"],base:["Sándalo","Ámbar","Caramelo"],desc:"Nouveau Monde de Louis Vuitton — un mundo nuevo — es exactamente eso. El maestro perfumista Jacques Cavallier crea un oriental amaderado de nueva generación: especiado, rico y contemporáneo a la vez.",longevity:88,sillage:82,family:"Amaderado Especiado"},
+  {top:["Bergamota","Canela","Pimienta negra"],heart:["Ciprés","Vetiver","Cuero"],base:["Sándalo","Cedro","Musgo"],desc:"X For Man de Clive Christian de la Original Collection es la fragancia masculina por excelencia. Especias sobre ciprés y cuero, terminando en madera y musgo — poder, elegancia y masculinidad en su estado más puro.",longevity:90,sillage:85,family:"Amaderado Cuero"},
+  {top:["Azafrán","Rosa","Oud"],heart:["Oud hindi","Sándalo","Agarwood"],base:["Resinas árabes","Almizcle","Ámbar"],desc:"El Mukhallat Dahn Al Oudh Moattaq de Ajmal es una mezcla árabe tradicional de oud de alta concentración. Azafrán y rosa sobre oud hindi puro — una experiencia auténticamente árabe de profundidad y permanencia excepcionales.",longevity:95,sillage:92,family:"Oriental Amaderado"},
+  {top:["Raspberry","Rosa","Bergamota"],heart:["Rosa turca","Incienso","Pimienta negra"],base:["Musgo de roble","Patchuli","Sándalo"],desc:"Portrait of a Lady de Frédéric Malle por Dominique Ropion es quizás la fragancia más icónica de la perfumería contemporánea. Rosa turca y frambuesa sobre incienso y musgo de roble — dramática, femenina y absolutamente inolvidable.",longevity:94,sillage:90,family:"Chipre Floral"},
+  {top:["Bergamota","Canela","Cardamomo"],heart:["Cuero","Castóreo","Iris"],base:["Sándalo","Vainilla","Almizcle animalico"],desc:"Under My Skin de Francesca Bianchi es la fragancia más animalica e íntima de la perfumería independiente. Canela y cuero con castóreo sobre sándalo y vainilla — se funde con la piel creando algo únicamente personal.",longevity:90,sillage:82,family:"Cuero Animalico"},
+  {top:["Pimienta negra","Bergamota","Cardamomo"],heart:["Oud","Rosa","Incienso"],base:["Sándalo","Ámbar","Cuero"],desc:"Empty Quarter de SJA evoca el vacío del desierto árabe. Un oriental amaderado de presencia imponente — pimienta negra y cardamomo sobre oud e incienso terminan en sándalo y cuero de extraordinary riqueza.",longevity:90,sillage:85,family:"Oriental Amaderado"},
+  {top:["Iris","Lavanda","Bergamota"],heart:["Cacao","Iris","Vetiver"],base:["Sándalo","Cedro","Almizcle blanco"],desc:"Dior Homme 2005 Silver Stem es el original — la versión que cambió para siempre la perfumería masculina con su revolucionario acorde de iris y cacao. Suave, polvoriento y extremadamente masculino. Un clásico inmediato ahora descontinuado.",longevity:86,sillage:78,family:"Fougère Amaderado"},
+  {top:["Oud","Bergamota","Lima"],heart:["Vetiver","Cedro","Pimienta rosa"],base:["Almizcle blanco","Resinas","Sándalo"],desc:"Bois Impérial de Essential Parfums es la fragancia que democratizó el oud de lujo. Por Quentin Bisch, combina oud, vetiver y cedro sobre almizcle blanco — moderna, unisex y de una elegancia parisina accesible.",longevity:80,sillage:72,family:"Amaderado Fresco"},
+  {top:["Bergamota","Cardamomo","Pimienta negra"],heart:["Cuero","Rosa","Incienso"],base:["Oud","Cedro","Almizcle"],desc:"African Leather Vintage de Memo Paris es un viaje olfativo al África salvaje. Cuero, incienso y oud sobre rosa — profundo, exótico y de una intensidad que evoca los paisajes más remotos del continente africano.",longevity:90,sillage:86,family:"Cuero Amaderado"},
+  {top:["Bergamota","Mandarina","Pimienta negra"],heart:["Incienso","Guayaco","Notas acuáticas"],base:["Patchuli","Vetiver","Ámbar"],desc:"Acqua di Gio Profumo descontinuado es la versión más intensa y oscura de la icónica fragancia de Armani. El incienso marino le da una dimensión casi espiritual — la mejor versión de una de las fragancias más vendidas de la historia.",longevity:88,sillage:82,family:"Aromático Acuático"},
+  {top:["Bergamota","Ron","Tabaco"],heart:["Rosa","Cuero","Especias"],base:["Ámbar","Sándalo","Almizcle"],desc:"Habanos Vintage de Royal Crown es un homenaje al puro cubano perfecto. Ron, tabaco y especias sobre cuero y ámbar — opulento, masculino y de una seducción irresistible para los amantes del tabaco y los grandes licores.",longevity:91,sillage:86,family:"Oriental Tabacado"},
+  {top:["Incienso","Bergamota","Naranja"],heart:["Iris","Notas florales","Especias"],base:["Cedro","Almizcle","Ámbar"],desc:"Lux Visionaria de Filippo Sorcinelli es arte llevado al frasco. Una fragancia avant-garde de incienso y flores que trasciende los géneros y las convenciones — para quien entiende la perfumería como expresión artística pura.",longevity:83,sillage:75,family:"Amaderado Floral"},
+  {top:["Castóreo","Civet","Almizcle animal"],heart:["Sándalo","Almizcle","Cuero"],base:["Ámbar","Resinas","Madera oscura"],desc:"Xponential Animalic Boost de Hueleme Mucho es exactamente lo que promete — un boost animalico de máxima intensidad. Diseñado para añadir profundidad y animalidad a cualquier fragancia, también funciona solo para el más atrevido.",longevity:85,sillage:80,family:"Animalico Almizclado"},
+  {top:["Pimienta negra","Cardamomo","Rosa"],heart:["Incienso","Mirra","Orris"],base:["Oud","Ámbar","Sándalo","Almizcle"],desc:"Jubilation XXV de Amouage Batch 2018 es la celebración olfativa definitiva. Especias, incienso y mirra sobre oud y ámbar — una composición oriental de una riqueza y complejidad que pocas fragancias del mundo pueden igualar.",longevity:95,sillage:92,family:"Oriental Especiado"},
+  {top:["Melocotón","Fresa","Frutos rojos"],heart:["Rosa","Jazmín","Geranio"],base:["Sándalo","Almizcle","Cedro"],desc:"Madawi de Arabian Oud es la fragancia árabe floral femenina más generosa y festiva. Frutas rojas y melocotón sobre un corazón de rosa y jazmín — fresca, alegre y de una feminidad opulenta.",longevity:87,sillage:82,family:"Oriental Floral"},
+  {top:["Bergamota","Pera","Lavanda"],heart:["Iris","Cuero","Cedro"],base:["Vetiver","Almizcle","Ámbar"],desc:"Dior Homme Intense es la versión de mayor profundidad del icónico Dior Homme. El iris se amplifica hacia un territorio más oscuro y amaderado, con cuero y vetiver que añaden masculinidad a la ya impresionante composición original.",longevity:90,sillage:85,family:"Oriental Amaderado"},
+  {top:["Bergamota","Limón","Pomelo"],heart:["Lavanda","Iris","Regaliz"],base:["Vainilla","Almendra","Sándalo","Cedro"],desc:"1725 Casanova de Histoires de Parfums es un tributo al seductor veneciano. Cítricos y lavanda abren paso a un corazón de iris y regaliz sobre una base de vainilla y almendra — el perfume de un conquistador ilustrado.",longevity:80,sillage:73,family:"Oriental Especiado"},
+  {top:["Aldehídos","Bergamota","Naranja"],heart:["Rosa","Jazmín","Iris"],base:["Sándalo","Vetiver","Almizcle"],desc:"Femme de Rochas vintage es uno de los grandes clásicos de la perfumería francesa. Un chipre floral polvoriento de refinada elegancia parisina — aldehídos brillantes, rosa y jazmín sobre sándalo y vetiver de profundidad atemporal.",longevity:85,sillage:78,family:"Chipre Floral"},
+  {top:["Bergamota","Limón","Pimienta negra"],heart:["Oud","Cardamomo","Cuero"],base:["Ámbar","Benzoin","Vainilla"],desc:"Code Profumo de Armani First Batch 2016 es una rareza de coleccionista. La primera versión de este oriental ambarado es notablemente más rica y especiada que las posteriores — un hito en la perfumería de lujo accesible.",longevity:91,sillage:86,family:"Oriental Ambarado"},
+  {top:["Bergamota","Orris","Pimienta de Sichuan"],heart:["Incienso","Labdano","Orris"],base:["Oud","Olíbano","Sándalo","Almizcle"],desc:"Interlude Man de Amouage es una de las fragancias masculinas más complejas jamás creadas. Incienso de Somalia, labdano y orris sobre oud y olíbano — oscura, espiritual y de una profundidad que requiere múltiples portadas para revelar todos sus secretos.",longevity:95,sillage:93,family:"Oriental Incienso"},
+  {top:["Neroli","Bergamota","Limón"],heart:["Jazmín","Flores de naranjo","Rosa"],base:["Sándalo","Almizcle blanco","Ámbar"],desc:"Neroli Canvas de Al Haramain Portfolio es un lienzo floral perfumado con la pureza del neroli. Las flores de naranjo y el jazmín crean una fragancia luminosa y aérea sobre un fondo suave de sándalo y almizcle — elegante y versátil.",longevity:76,sillage:68,family:"Floral Cítrico"},
+  {top:["Mandarina","Bergamota","Pimienta"],heart:["Iris","Geranio","Almizcle"],base:["Sándalo","Cedro","Almizcle blanco"],desc:"L'Homme de Prada es el iris masculino por excelencia. Limpio, sofisticado y contemporáneo — el iris se combina con mandarina y sándalo en una fragancia que define al hombre moderno con impecable elegancia italiana.",longevity:78,sillage:70,family:"Amaderado Iris"},
+  {top:["Rosas","Magnolia","Peonía"],heart:["Rosa de mayo","Jazmín","Ylang-ylang"],base:["Almizcle blanco","Sándalo","Cedro"],desc:"Ready For Rose de Veronika Gabai es una oda sensorial a la rosa en toda su gloria. Magnolia y peonía enmarcan una rosa de mayo de extraordinaria calidad sobre almizcle y sándalo — femenina, radiante y de una elegancia contemporánea.",longevity:84,sillage:78,family:"Floral Rosa"},
+  {top:["Pomelo","Lima","Romero"],heart:["Jengibre","Salvia","Cardamomo"],base:["Cedro","Almizcle","Ámbar"],desc:"L'Immensite de Louis Vuitton por Jacques Cavallier Belletrud es la inmensidad del océano en fragancia. Cítricos vibrantes y romero marino sobre jengibre y sándalo — fresca, expansiva y de una modernidad irreprochable.",longevity:83,sillage:76,family:"Aromático Acuático"},
+  {top:["Pomelo","Lima","Bergamota"],heart:["Oud","Cardamomo","Flores blancas"],base:["Sándalo","Ámbar","Resinas"],desc:"Nawab Of Oudh Parfum de Ormonde Jayne es el oud visto a través de la sofisticación londinense. Cítricos brillantes y cardamomo abren paso a un oud refinado y elegante sobre sándalo y resinas — donde Oriente se encuentra con Occidente con clase impecable.",longevity:90,sillage:85,family:"Oriental Amaderado"},
+  {top:["Bergamota","Rosa","Azafrán"],heart:["Oud","Rosa búlgara","Incienso"],base:["Ámbar","Sándalo","Almizcle"],desc:"Amber Aoud Parfum de Roja Parfums es la fusión definitiva entre el lujo británico y el oud árabe. Rosa búlgara y azafrán sobre oud e incienso terminan en ámbar y sándalo de extraordinaria riqueza — una masterpiece de la perfumería contemporánea.",longevity:94,sillage:90,family:"Oriental Ambarado"},
+];
+
+function openDetail(idx) {
+  const p = perfumes[idx];
+  const d = perfumeDetails[idx];
+  if(!d) return;
+
+  document.getElementById('detailImg').src = p.customImg || makeSVG(p, idx);
+  document.getElementById('detailHouse').textContent = p.house;
+  document.getElementById('detailName').textContent = p.name;
+  document.getElementById('detailFamily').textContent = d.family;
+
+  // Ratings
+  document.getElementById('detailRatings').innerHTML = `
+    <div class="rating-row">
+      <span class="rating-label">Longevidad</span>
+      <div class="rating-bar"><div class="rating-fill" style="width:${d.longevity}%"></div></div>
+      <span class="rating-value">${d.longevity >= 90 ? 'Excelente' : d.longevity >= 80 ? 'Alta' : 'Media'}</span>
+    </div>
+    <div class="rating-row">
+      <span class="rating-label">Proyección</span>
+      <div class="rating-bar"><div class="rating-fill" style="width:${d.sillage}%"></div></div>
+      <span class="rating-value">${d.sillage >= 88 ? 'Bestial' : d.sillage >= 78 ? 'Buena' : 'Suave'}</span>
+    </div>`;
+
+  // Description
+  document.getElementById('detailDesc').innerHTML = d.desc.replace(/\b(Fragrantica|Parfumo)\b/g, '<em>$1</em>');
+
+  // Notes
+  document.getElementById('detailNotes').innerHTML = `
+    <div class="notes-col">
+      <div class="notes-col-label">Salida</div>
+      ${d.top.map(n=>`<span class="note-pill">${n}</span>`).join('')}
+    </div>
+    <div class="notes-col">
+      <div class="notes-col-label">Corazón</div>
+      ${d.heart.map(n=>`<span class="note-pill">${n}</span>`).join('')}
+    </div>
+    <div class="notes-col">
+      <div class="notes-col-label">Base</div>
+      ${d.base.map(n=>`<span class="note-pill">${n}</span>`).join('')}
+    </div>`;
+
+  // Prices
+  document.getElementById('detailPrices').innerHTML = [3,5,10].map((ml,si)=>`
+    <div>
+      <div class="dpi-size">${ml}ml</div>
+      <div class="dpi-price">${fmt(p.prices[si])}</div>
+    </div>`).join('');
+
+  // Select button
+  document.getElementById('btnDetailSelect').onclick = () => {
+    closeDetail();
+    const card = document.getElementById('card-' + idx);
+    if(card) card.scrollIntoView({behavior:'smooth', block:'center'});
+  };
+
+  document.getElementById('detailOverlay').classList.add('visible');
+  document.body.style.overflow = 'hidden';
+}
+
+function closeDetail(){
+  document.getElementById('detailOverlay').classList.remove('visible');
+  document.body.style.overflow = '';
+}
+
+function closeDetailOutside(e){
+  if(e.target === document.getElementById('detailOverlay')) closeDetail();
+}
 let activeFilter = 'all';
 
 const familyMap = {
